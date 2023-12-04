@@ -1,10 +1,23 @@
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 function App() {
 
   const [heroes, setHeroes] = useState([]);
+
+  //! useEffect triggers AFTER the component has FINISHED rendering
+  useEffect(() => {
+    // axiosHeroes();
+
+    axios.get("https://akabab.github.io/superhero-api/api/all.json")
+      .then(serverRes => {
+        console.log(serverRes.data);
+        setHeroes(serverRes.data);
+      })
+      .catch(err => console.log(err));
+      
+  }, []);
 
   // Fetch
   const fetchHeroes = () => {
@@ -43,10 +56,12 @@ function App() {
 
       <table>
         <thead>
-          <th>Image</th>
-          <th>name</th>
-          <th>full name</th>
-          <th>publisher</th>
+          <tr>
+            <th>Image</th>
+            <th>name</th>
+            <th>full name</th>
+            <th>publisher</th>
+          </tr>
         </thead>
         <tbody>
           {
